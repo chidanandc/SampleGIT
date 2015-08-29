@@ -1,46 +1,87 @@
 <!DOCTYPE html>
 <html ng-app="colorMemoryGame">
 <head>
-<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="colormemory.css">
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="colormemory.css">
 </head>
 <body ng-controller="MemoryGameCtrl" arrow-selector>
-<div class="container-fluid divBackGround">
-<div>  
-  <div class="row">
-    <div class="col-sm-9">
-       <div class="row" >
-			<div class="col-sm-3" ng-repeat="item in game.allImages" ng-click="game.flipTile(item)">	
-				<img  ng-show="item.frontImgHide" ng-src="cards/card_bg.gif" >
-				<img  ng-show="item.backImgHide" ng-src="cards/{{item.imageName}}.gif">
-			</div>			
-       </div>	   
-	</div>	   
-    
-   <div class="col-sm-3">
-      <div class="row">
-        <img src="cards/logo.png">
-       </div>
-	   <div class="row">
-<div class="test">	   
-			<div><h3>Information<h3></div>        
-			<div>Matched Images: {{game.matchedImages}}</Div>
-			<div>Remaining Matches: {{game.matchingImagesLeft}}</Div>
-			<div>Total Attempts: {{game.totalAttempts}}</Div>	     
-			</div>
-       </div>
-	    <div class="row">
+    <div class="container-fluid divBackGround">
+        <div>
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="row">
+                        <div class="col-sm-3" ng-repeat="item in game.allImages" ng-style="{'background-color':$index == selectedRow?'red':'','border-style':$index == selectedRow?'inset':''}">
+                            <img ng-show="item.frontImgHide" ng-src="cards/card_bg.gif">
+                            <img ng-show="item.backImgHide" ng-src="cards/{{item.imageName}}.gif">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="row logo">
+                        <img src="cards/logo.png">
+                    </div>
+                    <div class="row">
+                        <div class="alert alert-success">
+                            <div>
+                                <h4>Game Info:<h4>
+                            </div>
+                            <div>Matched Images: {{game.matchedImages}}</div>
+                            <div>Remaining Matches: {{game.matchingImagesLeft}}</div>
+                            <div>Total Attempts: {{game.totalAttempts}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="alert alert-info">
+                            <div>
+                                <h4>Instructions:</h4>
+								<ul>
+                                    <li>Use <strong>Arrow</strong> keys to navigate</li>
+                                    <li>Press <strong>Enter</strong> to flip</li>
+                                </ul>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button type="button" class="btn btn-warning btn-lg" ng-click="game.resetForm()" style="margin-top:30%;width:100%">Restart Game</button>
+                    </div>
+                </div>
+            </div>
         </div>
-	    <div class="row">		
-        <button type="button" class="btn btn-default">Restart</button>		
-       </div>
-   </div>
+    </div>
+    
+	<!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Confirmation:</h4>
+        </div>
+        <div class="modal-body">
+          <p>Do you Want to restart the game?</p>
+        </div>
+        <div class="modal-footer">
+		  <button id="restart" type="button" class="btn btn-success" data-dismiss="modal">Yes</button>
+          <button type="button" class="btn btn-warning" data-dismiss="modal">No</button>
+        </div>
+      </div>
+      
+    </div>
   </div>
-</div>
-</div>
-
-
-<script src="angular.min.js"></script>
-<script src="memorygame.js"></script>
+    <script src="jquery-1.11.3.min.js"></script>
+	<script src="bootstrap.min.js"></script>
+    <script src="angular.min.js"></script>
+    <script src="memorygame.js"></script>
+	<script>
+		$(document).ready(function(){			
+			$("#restart").click(function(){
+				window.location.reload(true);
+			});			
+		});
+	</script>
+	
 </body>
 </html>

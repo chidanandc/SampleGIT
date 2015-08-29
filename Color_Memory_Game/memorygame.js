@@ -7,15 +7,15 @@ memoryGameApp.factory('game', function() {
 
 memoryGameApp.controller('MemoryGameCtrl', function GameCtrl($scope, game) {
   $scope.game = game;
-  $scope.selectedRow = 0;    
+  $scope.selectedRow = 0;      
 });
 
-function CreateGame(images) {	
+function CreateGame(images) {
 	this.matchingImagesLeft =images.length;
     this.allImages = CreateDuplicate(images);
     this.matchedImages=0;
-	this.totalAttempts=0;
-  this.flipTile = function(item) {
+	this.totalAttempts=0;	
+    this.flipTile = function(item) {	  
 		if(item.flipped){
 		return;
 		}		
@@ -38,7 +38,7 @@ function CreateGame(images) {
 				this.matchingImagesLeft--;
 				if(this.matchingImagesLeft==0)
 				{
-					alert('You Won! Want to play new game? Yes || No');
+					$("#myModal").modal();
 				}
 				this.firstImage=this.secondImage=undefined;
 				this.totalAttempts++;
@@ -48,12 +48,13 @@ function CreateGame(images) {
 				this.totalAttempts++;
 			}
 		}
-		
-		
 	}	
+	this.resetForm=function(scope){	
+	    window.location.reload(true);
+	}
 }
 
-function TileImage(name) {
+function TileImage(name) {	
   this.imageName = name;
   this.flipped = false;
   this.frontImgHide=true;
@@ -86,6 +87,61 @@ function shuffle(array) {
   }
   return array;
 }
+
+memoryGameApp.directive('arrowSelector',['$document',function($document){
+	 return{
+		 restrict:'A',
+		 link:function(scope,elem,attrs,ctrl){
+			 $document.bind('keydown',function(e){
+				 switch(e.keyCode)
+				 {
+					 case 37:						
+						 if(scope.selectedRow == 0){
+							 scope.selectedRow = scope.game.allImages.length - 1;
+							 }
+							 else{
+							 scope.selectedRow--;						 		
+							 }
+						break;						 
+					case 39:					
+						 if(scope.selectedRow == scope.game.allImages.length - 1){
+							 scope.selectedRow = scope.game.allImages.length - scope.selectedRow - 1;
+						 }
+						 else{
+							 scope.selectedRow++;
+						 }						 
+						 break;						 
+					 case 38:					 
+						if(scope.selectedRow-4 < 0)						{
+						   scope.selectedRow=(scope.game.allImages.length + scope.selectedRow) - 4;						   
+						 }
+						 else{
+							 scope.selectedRow=scope.selectedRow - 4;
+						 }
+						 break;						 
+					 case 40:					 
+						if(scope.selectedRow + 4 >= scope.game.allImages.length)	{						   
+							scope.selectedRow=(scope.selectedRow + 4) - scope.game.allImages.length ;						   
+						 }
+						 else{							 	
+							 scope.selectedRow=scope.selectedRow + 4;
+						 }
+						 break;						 
+					case 13:	 					 
+						 scope.game.flipTile(scope.game.allImages[scope.selectedRow])					 
+						 break;						 
+				  }
+				  scope.$apply();
+				  e.preventDefault();
+			 });
+		 }
+	 };
+ }]);
+ 
+ 
+ 
+
+
 
 
 

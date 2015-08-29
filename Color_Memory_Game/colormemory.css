@@ -15,23 +15,6 @@ img
   width:100%;
 }
 
-.col-sm-3{border:solid}
-.col-sm-9{style="background-color:gray;}
-
-div{
-    display:block;
-    width:100px;
-    height:20px;
-    border:1px solid #ccc;
-    margin-bottom:5px;
-}
-
-.hlight{
-    background:yellow;
-}
-
-.selected {
-    background-color: red !important;
-    color: white;
-    font-weight: bold;
-}
+.col-sm-3{border:solid;}
+.infoColumn{background-color:blue;}
+.logo{background-color:#CC00FF;}
